@@ -5,72 +5,112 @@
 <title>Premium Subscription</title>
 
 <style>
-    body{
-        margin:0;
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-        color:white;
-        overflow:hidden;
-    }
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    overflow:hidden;
+}
 
-    .box{
-        text-align:center;
-        background: rgba(255,255,255,0.1);
-        padding:40px;
-        border-radius:20px;
-        backdrop-filter: blur(10px);
-        box-shadow:0 0 25px rgba(0,0,0,0.4);
-        position:relative;
-        z-index:10;
-    }
+.box{
+    text-align:center;
+    background: rgba(255,255,255,0.1);
+    padding:40px;
+    border-radius:20px;
+    backdrop-filter: blur(10px);
+    box-shadow:0 0 25px rgba(0,0,0,0.4);
+    width:90%;
+    max-width:600px;
+}
 
-    h1{margin-bottom:30px;}
+.question{
+    font-size:24px;
+    margin-bottom:30px;
+}
 
-    button{
-        padding:15px 30px;
-        margin:10px;
-        font-size:18px;
-        border:none;
-        border-radius:12px;
-        cursor:pointer;
-        transition:0.3s;
-        position:absolute;
-    }
+.button-area{
+    position:relative;
+    height:130px;
+}
 
-    #yesBtn{
-        background:#00ff95;
-        color:black;
-        left:40%;
-    }
+button{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    position:absolute;
+    transition: all 0.5s ease; /* smooth movement */
+}
 
-    #noBtn{
-        background:#ff4b5c;
-        color:white;
-        left:55%;
-    }
+#yesBtn{
+    background:#00ff95;
+    color:black;
+    left:20%;
+    top:30px;
+}
 
-    #celebration{
-        display:none;
-        font-size:40px;
-        font-weight:bold;
-        animation: glow 1s infinite alternate;
-    }
+#noBtn{
+    background:#ff4b5c;
+    color:white;
+    left:55%;
+    top:30px;
+}
 
-    @keyframes glow{
-        from{ text-shadow:0 0 10px #fff,0 0 20px #ff00ff,0 0 30px #ff00ff;}
-        to{ text-shadow:0 0 20px #fff,0 0 40px #00ffff,0 0 60px #00ffff;}
-    }
+/* NO message text */
+#tryText{
+    margin-top:20px;
+    font-size:22px;
+    opacity:0;
+    transition:opacity 0.5s;
+}
 
-    canvas{
-        position:fixed;
-        top:0;
-        left:0;
-        z-index:1;
-    }
+/* MODAL POPUP */
+.overlay{
+    position:fixed;
+    inset:0;
+    backdrop-filter: blur(10px);
+    background:rgba(0,0,0,0.4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.4s;
+}
+
+.modal{
+    background:white;
+    color:black;
+    padding:40px;
+    border-radius:20px;
+    font-size:28px;
+    transform:scale(0.7);
+    transition:0.4s;
+    text-align:center;
+}
+
+.overlay.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.overlay.show .modal{
+    transform:scale(1);
+}
+
+/* FIREWORK CANVAS */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
 </style>
 </head>
 
@@ -78,46 +118,63 @@
 
 <canvas id="fireworks"></canvas>
 
-<div class="box" id="mainBox">
-    <h1>Would you like to subscribe for the premium subscription to avail the best experience?</h1>
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
+<div class="box">
+    <div class="question">
+        Would you like to subscribe for the premium subscription to avail the best experience?
+    </div>
 
-    <div id="celebration">✨ Welcome Beautiful ✨</div>
+    <div class="button-area" id="buttonArea">
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
+    </div>
+
+    <div id="tryText">Try again 😜</div>
+</div>
+
+<!-- YES POPUP -->
+<div class="overlay" id="overlay">
+    <div class="modal">
+        ✨ You are in for a treat <br> Welcome Beautiful ✨
+    </div>
 </div>
 
 <script>
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
-const celebration = document.getElementById("celebration");
+const tryText = document.getElementById("tryText");
+const buttonArea = document.getElementById("buttonArea");
+const overlay = document.getElementById("overlay");
 
 let noClickCount = 0;
 
-// YES CLICK → FIREWORKS + MESSAGE
+// YES CLICK → POPUP + FIREWORKS
 yesBtn.onclick = () => {
-    celebration.style.display = "block";
+    overlay.classList.add("show");
     startFireworks();
 };
 
-// NO CLICK → MESSAGE + MOVE BUTTON
+// NO CLICK → MOVE FIRST → THEN SHOW TEXT
 noBtn.onclick = () => {
-    noClickCount++;
+    moveNoButton();
 
-    if(noClickCount === 1){
-        alert("Ik you will try clicking on no but it ain't an option. Try again 😏");
-    } else {
-        alert("Try again 😜");
-    }
-
-    // Move button randomly
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    setTimeout(()=>{
+        tryText.style.opacity = 1;
+        setTimeout(()=> tryText.style.opacity = 0,1500);
+    },400);
 };
 
+function moveNoButton(){
+    const areaWidth = buttonArea.clientWidth - 120;
+    const areaHeight = buttonArea.clientHeight - 60;
 
-// FIREWORKS EFFECT
+    const x = Math.random() * areaWidth;
+    const y = Math.random() * areaHeight;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+// FIREWORKS
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
