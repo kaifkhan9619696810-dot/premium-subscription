@@ -28,15 +28,9 @@ body{
     max-width:600px;
 }
 
-.question{
-    font-size:24px;
-    margin-bottom:30px;
-}
+.question{font-size:24px;margin-bottom:30px;}
 
-.button-area{
-    position:relative;
-    height:130px;
-}
+.button-area{position:relative;height:130px;}
 
 button{
     padding:15px 30px;
@@ -48,68 +42,28 @@ button{
     transition: all 0.5s ease;
 }
 
-#yesBtn{
-    background:#00ff95;
-    color:black;
-    left:20%;
-    top:30px;
-}
+#yesBtn{background:#00ff95;color:black;left:20%;top:30px;}
+#noBtn{background:#ff4b5c;color:white;left:55%;top:30px;}
 
-#noBtn{
-    background:#ff4b5c;
-    color:white;
-    left:55%;
-    top:30px;
-}
+#tryText{margin-top:20px;font-size:22px;opacity:0;transition:0.5s;}
 
-#tryText{
-    margin-top:20px;
-    font-size:22px;
-    opacity:0;
-    transition:opacity 0.5s;
-}
-
-/* MODAL */
 .overlay{
-    position:fixed;
-    inset:0;
+    position:fixed;inset:0;
     backdrop-filter: blur(10px);
     background:rgba(0,0,0,0.4);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    pointer-events:none;
-    transition:0.4s;
+    display:flex;justify-content:center;align-items:center;
+    opacity:0;pointer-events:none;transition:0.4s;
 }
 
 .modal{
-    background:white;
-    color:black;
-    padding:40px;
-    border-radius:20px;
-    font-size:28px;
-    transform:scale(0.7);
-    transition:0.4s;
-    text-align:center;
+    background:white;color:black;padding:40px;border-radius:20px;
+    font-size:28px;transform:scale(0.7);transition:0.4s;text-align:center;
 }
 
-.overlay.show{
-    opacity:1;
-    pointer-events:auto;
-}
+.overlay.show{opacity:1;pointer-events:auto;}
+.overlay.show .modal{transform:scale(1);}
 
-.overlay.show .modal{
-    transform:scale(1);
-}
-
-/* HEART CANVAS */
-canvas{
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:-1;
-}
+canvas{position:fixed;top:0;left:0;z-index:-1;}
 </style>
 </head>
 
@@ -118,75 +72,96 @@ canvas{
 <canvas id="heartCanvas"></canvas>
 
 <div class="box">
-    <div class="question">
-        Aren't you the prettiest girl on earth, nay, the galaxy ✅ ?
-    </div>
+<div class="question">
+Aren't you the prettiest girl on earth, nay, the galaxy ✅ ?
+</div>
 
-    <div class="button-area" id="buttonArea">
-        <button id="yesBtn">Yes</button>
-        <button id="noBtn">No</button>
-    </div>
+<div class="button-area" id="buttonArea">
+<button id="yesBtn">Yes</button>
+<button id="noBtn">No</button>
+</div>
 
-    <div id="tryText">Try again 😜</div>
+<div id="tryText">Try again 😜</div>
 </div>
 
 <div class="overlay" id="overlay">
-    <div class="modal">
-        ❤️ Yes you are, yes you are ❤️ <br>
-        Happiest birthday to you di 🎉
-    </div>
+<div class="modal">
+❤️ Yes you are, yes you are ❤️ <br>
+Happiest birthday to you di 🎉
+</div>
 </div>
 
 <script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const tryText = document.getElementById("tryText");
-const buttonArea = document.getElementById("buttonArea");
-const overlay = document.getElementById("overlay");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const tryText=document.getElementById("tryText");
+const buttonArea=document.getElementById("buttonArea");
+const overlay=document.getElementById("overlay");
 
-yesBtn.onclick = () => {
-    overlay.classList.add("show");
-    startHearts();
+yesBtn.onclick=()=>{
+ overlay.classList.add("show");
+ burstHearts();
 };
 
-noBtn.onclick = () => {
-    moveNoButton();
-    setTimeout(()=>{
-        tryText.style.opacity = 1;
-        setTimeout(()=> tryText.style.opacity = 0,1500);
-    },400);
+noBtn.onclick=()=>{
+ moveNoButton();
+ setTimeout(()=>{
+   tryText.style.opacity=1;
+   setTimeout(()=>tryText.style.opacity=0,1500);
+ },300);
 };
 
 function moveNoButton(){
-    const areaWidth = buttonArea.clientWidth - 120;
-    const areaHeight = buttonArea.clientHeight - 60;
-    const x = Math.random() * areaWidth;
-    const y = Math.random() * areaHeight;
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+ const areaWidth=buttonArea.clientWidth-120;
+ const areaHeight=buttonArea.clientHeight-60;
+ noBtn.style.left=Math.random()*areaWidth+"px";
+ noBtn.style.top=Math.random()*areaHeight+"px";
 }
 
-/* HEART ANIMATION */
-const canvas = document.getElementById("heartCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+/* LIGHTWEIGHT HEART BURST */
+const canvas=document.getElementById("heartCanvas");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-let hearts = [];
+let hearts=[];
 
-function createHeart(x,y){
-    for(let i=0;i<20;i++){
-        hearts.push({
-            x:x,
-            y:y,
-            dx:(Math.random()-0.5)*6,
-            dy:(Math.random()-0.5)*6,
-            size:Math.random()*8+4,
-            life:80
-        });
-    }
+function burstHearts(){
+ for(let i=0;i<80;i++){
+   hearts.push({
+     x:canvas.width/2,
+     y:canvas.height/2,
+     dx:(Math.random()-0.5)*8,
+     dy:(Math.random()-0.5)*8,
+     size:Math.random()*6+4,
+     life:80
+   });
+ }
 }
 
-function startHearts(){
-    setInterval(()=>{
-        createHeart
+function drawHeart(x,y,s){
+ ctx.beginPath();
+ ctx.moveTo(x,y);
+ ctx.bezierCurveTo(x,y-3*s,x-3*s,y-3*s,x-3*s,y);
+ ctx.bezierCurveTo(x-3*s,y+3*s,x,y+4*s,x,y+6*s);
+ ctx.bezierCurveTo(x,y+4*s,x+3*s,y+3*s,x+3*s,y);
+ ctx.bezierCurveTo(x+3*s,y-3*s,x,y-3*s,x,y);
+ ctx.fillStyle="red";
+ ctx.fill();
+}
+
+function animate(){
+ requestAnimationFrame(animate);
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ hearts.forEach((h,i)=>{
+   h.x+=h.dx; h.y+=h.dy; h.life--;
+   drawHeart(h.x,h.y,h.size);
+   if(h.life<=0) hearts.splice(i,1);
+ });
+}
+animate();
+</script>
+
+</body>
+</html>
