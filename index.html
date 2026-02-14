@@ -29,7 +29,6 @@ body{
 }
 
 .question{font-size:24px;margin-bottom:30px;}
-
 .button-area{position:relative;height:130px;}
 
 button{
@@ -45,39 +44,22 @@ button{
 #yesBtn{background:#00ff95;color:black;left:20%;top:30px;}
 #noBtn{background:#ff4b5c;color:white;left:55%;top:30px;}
 
-#tryText{
-    margin-top:20px;
-    font-size:22px;
-    opacity:0;
-    transition:0.5s;
-}
+#tryText{margin-top:20px;font-size:22px;opacity:0;transition:0.5s;}
 
-/* POPUP */
 .overlay{
-    position:fixed;
-    inset:0;
+    position:fixed; inset:0;
     backdrop-filter: blur(8px);
     background:rgba(0,0,0,0.4);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    pointer-events:none;
-    transition:0.4s;
+    display:flex; justify-content:center; align-items:center;
+    opacity:0; pointer-events:none; transition:0.4s;
 }
 
 .modal{
-    background:white;
-    color:black;
-    padding:40px;
-    border-radius:20px;
-    font-size:28px;
-    transform:scale(0.7);
-    transition:0.4s;
-    text-align:center;
+    background:white; color:black; padding:40px; border-radius:20px;
+    font-size:28px; transform:scale(0.7); transition:0.4s; text-align:center;
 }
 
-.overlay.show{opacity:1;pointer-events:auto;}
+.overlay.show{opacity:1; pointer-events:auto;}
 .overlay.show .modal{transform:scale(1);}
 
 canvas{position:fixed;top:0;left:0;z-index:-1;}
@@ -117,7 +99,7 @@ const overlay=document.getElementById("overlay");
 
 yesBtn.onclick=()=>{
  overlay.classList.add("show");
- burstHearts();
+ startHearts();   // hearts start forever
 };
 
 noBtn.onclick=()=>{
@@ -135,25 +117,32 @@ function moveNoButton(){
  noBtn.style.top=Math.random()*areaHeight+"px";
 }
 
-/* HEART BURST */
+/* CONTINUOUS HEART ENGINE ❤️ */
 const canvas=document.getElementById("heartCanvas");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
 let hearts=[];
+let heartsStarted=false;
 
-function burstHearts(){
- for(let i=0;i<80;i++){
+function spawnHearts(){
+ for(let i=0;i<10;i++){
    hearts.push({
-     x:canvas.width/2,
-     y:canvas.height/2,
-     dx:(Math.random()-0.5)*8,
-     dy:(Math.random()-0.5)*8,
-     size:Math.random()*6+4,
-     life:80
+     x:canvas.width/2 + (Math.random()*80-40),
+     y:canvas.height/2 + (Math.random()*80-40),
+     dx:(Math.random()-0.5)*4,
+     dy:(Math.random()-0.5)*4,
+     size:Math.random()*5+3,
+     life:120
    });
  }
+}
+
+function startHearts(){
+ if(heartsStarted) return;
+ heartsStarted=true;
+ setInterval(spawnHearts, 400); // continuous generation
 }
 
 function drawHeart(x,y,s){
@@ -172,7 +161,9 @@ function animate(){
  ctx.clearRect(0,0,canvas.width,canvas.height);
 
  hearts.forEach((h,i)=>{
-   h.x+=h.dx; h.y+=h.dy; h.life--;
+   h.x+=h.dx;
+   h.y+=h.dy;
+   h.life--;
    drawHeart(h.x,h.y,h.size);
    if(h.life<=0) hearts.splice(i,1);
  });
