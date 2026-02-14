@@ -45,7 +45,7 @@ button{
     border-radius:12px;
     cursor:pointer;
     position:absolute;
-    transition: all 0.5s ease; /* smooth movement */
+    transition: all 0.5s ease;
 }
 
 #yesBtn{
@@ -62,7 +62,6 @@ button{
     top:30px;
 }
 
-/* NO message text */
 #tryText{
     margin-top:20px;
     font-size:22px;
@@ -70,7 +69,6 @@ button{
     transition:opacity 0.5s;
 }
 
-/* MODAL POPUP */
 .overlay{
     position:fixed;
     inset:0;
@@ -104,7 +102,6 @@ button{
     transform:scale(1);
 }
 
-/* FIREWORK CANVAS */
 canvas{
     position:fixed;
     top:0;
@@ -120,7 +117,7 @@ canvas{
 
 <div class="box">
     <div class="question">
-        Would you like to subscribe for the premium subscription to avail the best experience?
+        Aren't you the prettiest girl on earth, nay, the galaxy ✅ ?
     </div>
 
     <div class="button-area" id="buttonArea">
@@ -131,10 +128,10 @@ canvas{
     <div id="tryText">Try again 😜</div>
 </div>
 
-<!-- YES POPUP -->
 <div class="overlay" id="overlay">
     <div class="modal">
-        ✨ You are in for a treat <br> Welcome Beautiful ✨
+        ✨ Yes you are, yes you are ✨ <br>
+        Happiest birthday to you di 🎉
     </div>
 </div>
 
@@ -145,15 +142,11 @@ const tryText = document.getElementById("tryText");
 const buttonArea = document.getElementById("buttonArea");
 const overlay = document.getElementById("overlay");
 
-let noClickCount = 0;
-
-// YES CLICK → POPUP + FIREWORKS
 yesBtn.onclick = () => {
     overlay.classList.add("show");
     startFireworks();
 };
 
-// NO CLICK → MOVE FIRST → THEN SHOW TEXT
 noBtn.onclick = () => {
     moveNoButton();
 
@@ -166,10 +159,8 @@ noBtn.onclick = () => {
 function moveNoButton(){
     const areaWidth = buttonArea.clientWidth - 120;
     const areaHeight = buttonArea.clientHeight - 60;
-
     const x = Math.random() * areaWidth;
     const y = Math.random() * areaHeight;
-
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
@@ -205,12 +196,10 @@ function animate(){
         p.x+=p.dx;
         p.y+=p.dy;
         p.life--;
-
         ctx.beginPath();
         ctx.arc(p.x,p.y,3,0,Math.PI*2);
         ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)";
         ctx.fill();
-
         if(p.life<=0) particles.splice(i,1);
     });
 }
