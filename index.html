@@ -45,19 +45,36 @@ button{
 #yesBtn{background:#00ff95;color:black;left:20%;top:30px;}
 #noBtn{background:#ff4b5c;color:white;left:55%;top:30px;}
 
-#tryText{margin-top:20px;font-size:22px;opacity:0;transition:0.5s;}
+#tryText{
+    margin-top:20px;
+    font-size:22px;
+    opacity:0;
+    transition:0.5s;
+}
 
+/* POPUP */
 .overlay{
-    position:fixed;inset:0;
-    backdrop-filter: blur(10px);
+    position:fixed;
+    inset:0;
+    backdrop-filter: blur(8px);
     background:rgba(0,0,0,0.4);
-    display:flex;justify-content:center;align-items:center;
-    opacity:0;pointer-events:none;transition:0.4s;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.4s;
 }
 
 .modal{
-    background:white;color:black;padding:40px;border-radius:20px;
-    font-size:28px;transform:scale(0.7);transition:0.4s;text-align:center;
+    background:white;
+    color:black;
+    padding:40px;
+    border-radius:20px;
+    font-size:28px;
+    transform:scale(0.7);
+    transition:0.4s;
+    text-align:center;
 }
 
 .overlay.show{opacity:1;pointer-events:auto;}
@@ -86,8 +103,8 @@ Aren't you the prettiest girl on earth, nay, the galaxy ✅ ?
 
 <div class="overlay" id="overlay">
 <div class="modal">
-❤️ Yes you are, yes you are ❤️ <br>
-Happiest birthday to you di 🎉
+Yes you are, Yes you are ❤️ <br>
+Happiest birthday di 🎉
 </div>
 </div>
 
@@ -118,7 +135,7 @@ function moveNoButton(){
  noBtn.style.top=Math.random()*areaHeight+"px";
 }
 
-/* LIGHTWEIGHT HEART BURST */
+/* HEART BURST */
 const canvas=document.getElementById("heartCanvas");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
