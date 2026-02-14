@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Premium Subscription</title>
+<title>Birthday Surprise</title>
 
 <style>
 body{
@@ -69,6 +69,7 @@ button{
     transition:opacity 0.5s;
 }
 
+/* MODAL */
 .overlay{
     position:fixed;
     inset:0;
@@ -102,6 +103,7 @@ button{
     transform:scale(1);
 }
 
+/* HEART CANVAS */
 canvas{
     position:fixed;
     top:0;
@@ -113,7 +115,7 @@ canvas{
 
 <body>
 
-<canvas id="fireworks"></canvas>
+<canvas id="heartCanvas"></canvas>
 
 <div class="box">
     <div class="question">
@@ -130,7 +132,7 @@ canvas{
 
 <div class="overlay" id="overlay">
     <div class="modal">
-        ✨ Yes you are, yes you are ✨ <br>
+        ❤️ Yes you are, yes you are ❤️ <br>
         Happiest birthday to you di 🎉
     </div>
 </div>
@@ -144,12 +146,11 @@ const overlay = document.getElementById("overlay");
 
 yesBtn.onclick = () => {
     overlay.classList.add("show");
-    startFireworks();
+    startHearts();
 };
 
 noBtn.onclick = () => {
     moveNoButton();
-
     setTimeout(()=>{
         tryText.style.opacity = 1;
         setTimeout(()=> tryText.style.opacity = 0,1500);
@@ -165,46 +166,27 @@ function moveNoButton(){
     noBtn.style.top = y + "px";
 }
 
-// FIREWORKS
-const canvas = document.getElementById("fireworks");
+/* HEART ANIMATION */
+const canvas = document.getElementById("heartCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let particles = [];
+let hearts = [];
 
-function startFireworks(){
-    setInterval(() => {
-        for(let i=0;i<30;i++){
-            particles.push({
-                x: canvas.width/2,
-                y: canvas.height/2,
-                dx: (Math.random()-0.5)*8,
-                dy: (Math.random()-0.5)*8,
-                life:100
-            });
-        }
-    },300);
+function createHeart(x,y){
+    for(let i=0;i<20;i++){
+        hearts.push({
+            x:x,
+            y:y,
+            dx:(Math.random()-0.5)*6,
+            dy:(Math.random()-0.5)*6,
+            size:Math.random()*8+4,
+            life:80
+        });
+    }
 }
 
-function animate(){
-    requestAnimationFrame(animate);
-    ctx.fillStyle="rgba(0,0,0,0.2)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    particles.forEach((p,i)=>{
-        p.x+=p.dx;
-        p.y+=p.dy;
-        p.life--;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,3,0,Math.PI*2);
-        ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)";
-        ctx.fill();
-        if(p.life<=0) particles.splice(i,1);
-    });
-}
-animate();
-</script>
-
-</body>
-</html>
+function startHearts(){
+    setInterval(()=>{
+        createHeart
