@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Happy Women's Day</title>
 
 <style>
@@ -11,23 +12,22 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family: 'Segoe UI', sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+background:linear-gradient(135deg,#ff9a9e,#fbc2eb,#a18cd1);
 color:white;
 overflow-x:hidden;
 }
 
 section{
-height:100vh;
+min-height:100vh;
 display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
+justify-content:center;
 text-align:center;
-padding:30px;
+padding:40px;
 opacity:0;
 transform:translateY(60px);
 transition:all 1s ease;
@@ -39,35 +39,51 @@ transform:translateY(0);
 }
 
 h1{
-font-size:clamp(40px,8vw,70px);
-margin-bottom:20px;
+font-size:clamp(40px,8vw,80px);
+font-weight:600;
 }
 
 h2{
-font-size:clamp(28px,6vw,45px);
-margin-bottom:20px;
+font-size:clamp(30px,6vw,50px);
+max-width:800px;
+line-height:1.4;
+}
+
+.highlight{
+color:#fff;
+background:rgba(255,255,255,0.25);
+padding:4px 12px;
+border-radius:8px;
 }
 
 p{
-font-size:20px;
+font-size:22px;
 max-width:700px;
-line-height:1.6;
+line-height:1.7;
 }
 
 .scroll{
 position:absolute;
-bottom:30px;
+bottom:40px;
 font-size:18px;
 opacity:0.8;
+animation:float 2s infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(10px)}
+100%{transform:translateY(0)}
 }
 
 .heart{
 position:fixed;
 font-size:20px;
-animation:float 6s linear infinite;
+animation:rise 7s linear infinite;
+opacity:0.7;
 }
 
-@keyframes float{
+@keyframes rise{
 0%{transform:translateY(100vh)}
 100%{transform:translateY(-10vh)}
 }
@@ -78,62 +94,81 @@ animation:float 6s linear infinite;
 <body>
 
 <section class="reveal">
+<div>
 <h1>🌸 Happy Women's Day 🌸</h1>
-<p>Today we celebrate the strength, beauty and brilliance of women everywhere.</p>
-<div class="scroll">↓ Scroll ↓</div>
+<p class="scroll">Scroll to begin ↓</p>
+</div>
 </section>
 
 <section class="reveal">
-<h2>Strength</h2>
-<p>
-Women carry strength that moves the world forward.  
-Their courage, resilience and determination inspire everyone around them.
-</p>
+<h2>
+Today we celebrate the <span class="highlight">strength</span>  
+that moves the world forward.
+</h2>
 </section>
 
 <section class="reveal">
-<h2>Kindness</h2>
-<p>
-Through compassion and kindness, women create warmth and hope in countless lives.
-Their presence makes the world a brighter place.
-</p>
+<h2>
+The <span class="highlight">courage</span>  
+to stand tall in every moment.
+</h2>
 </section>
 
 <section class="reveal">
-<h2>Celebration</h2>
-<p>
-Today is a reminder to appreciate the incredible women who shape our lives and the future of our world.
-</p>
+<h2>
+The <span class="highlight">kindness</span>  
+that makes life more beautiful.
+</h2>
 </section>
 
 <section class="reveal">
-<h2>💐 A Special Message 💐</h2>
-<p>
-To every amazing woman — never forget how powerful, inspiring and extraordinary you truly are.
-Happy Women's Day!
-</p>
+<h2>
+And the <span class="highlight">brilliance</span>  
+that inspires everyone around.
+</h2>
+</section>
+
+<section class="reveal">
+<h2>
+Today is a celebration of  
+<span class="highlight">every incredible woman</span>.
+</h2>
+</section>
+
+<section class="reveal">
+<h2>
+💐 You are strong.  
+You are inspiring.  
+You are extraordinary.
+</h2>
 </section>
 
 <script>
 
-const reveals = document.querySelectorAll(".reveal");
+const sections=document.querySelectorAll(".reveal");
 
 function revealOnScroll(){
-const trigger = window.innerHeight * 0.85;
 
-reveals.forEach(section=>{
-const top = section.getBoundingClientRect().top;
+const trigger=window.innerHeight*0.85;
 
-if(top < trigger){
-section.classList.add("show");
+sections.forEach(sec=>{
+
+const top=sec.getBoundingClientRect().top;
+
+if(top<trigger){
+sec.classList.add("show");
 }
+
 });
+
 }
 
-window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("scroll",revealOnScroll);
 revealOnScroll();
 
+
 function createHeart(){
+
 const heart=document.createElement("div");
 heart.classList.add("heart");
 heart.innerHTML="💖";
@@ -146,9 +181,10 @@ document.body.appendChild(heart);
 setTimeout(()=>{
 heart.remove();
 },7000);
+
 }
 
-setInterval(createHeart,500);
+setInterval(createHeart,600);
 
 </script>
 
