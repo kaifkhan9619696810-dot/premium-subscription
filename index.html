@@ -2,39 +2,125 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Birthday Surprise</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Women's Day 💐</title>
 
 <style>
+
 body{
     margin:0;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+    background-size:400% 400%;
+    animation: gradient 10s ease infinite;
     overflow:hidden;
 }
 
-.box{
-    text-align:center;
-    background: rgba(255,255,255,0.1);
-    padding:40px;
-    border-radius:20px;
-    backdrop-filter: blur(10px);
-    box-shadow:0 0 25px rgba(0,0,0,0.4);
-    width:90%;
-    max-width:600px;
+@keyframes gradient{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
-.question{font-size:24px;margin-bottom:30px;}
-.button-area{position:relative;height:130px;}
+.container{
+text-align:center;
+color:white;
+}
+
+h1{
+font-size:3rem;
+text-shadow:0 0 20px rgba(0,0,0,0.3);
+}
 
 button{
-    padding:15px 30px;
-    font-size:18px;
-    border:none;
+padding:12px 30px;
+border:none;
+border-radius:30px;
+font-size:18px;
+cursor:pointer;
+background:white;
+color:#ff4b8b;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+.message{
+margin-top:20px;
+font-size:1.4rem;
+display:none;
+}
+
+.heart{
+position:absolute;
+color:white;
+font-size:20px;
+animation: float 6s linear infinite;
+}
+
+@keyframes float{
+0%{
+transform:translateY(100vh) scale(0.5);
+opacity:1;
+}
+100%{
+transform:translateY(-10vh) scale(1.2);
+opacity:0;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌸 Happy Women's Day 🌸</h1>
+
+<p>Celebrating strength, beauty, and brilliance.</p>
+
+<button onclick="showMessage()">Open Message 💌</button>
+
+<div class="message" id="msg">
+✨ To the amazing women who make the world brighter every day.  
+Your strength, kindness, and courage inspire everyone around you.  
+Never forget how powerful and extraordinary you truly are. 💐
+</div>
+
+</div>
+
+<script>
+
+function showMessage(){
+document.getElementById("msg").style.display="block";
+}
+
+function createHeart(){
+const heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(Math.random()*3+3)+"s";
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},6000);
+}
+
+setInterval(createHeart,300);
+
+</script>
+
+</body>
+</html>    border:none;
     border-radius:12px;
     cursor:pointer;
     position:absolute;
