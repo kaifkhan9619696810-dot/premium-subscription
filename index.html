@@ -27,10 +27,10 @@ overflow-x:hidden;
 100%{background-position:0% 50%}
 }
 
-/* scroll sections */
+/* shorter scroll sections */
 
 .section{
-height:100vh;
+height:60vh;
 }
 
 /* glass panel */
@@ -41,11 +41,11 @@ position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-z-index:2;
+z-index:3;
 
 width:90%;
 max-width:850px;
-height:65vh;
+height:60vh;
 
 display:flex;
 align-items:center;
@@ -62,26 +62,21 @@ box-shadow:0 20px 40px rgba(0,0,0,0.12);
 padding:40px;
 text-align:center;
 
-/* important scroll fix */
 pointer-events:none;
 
 }
 
-/* message text */
+/* text */
 
 .text{
-
 font-size:28px;
 color:#333;
 line-height:1.6;
 transition:all 0.6s ease;
-
-/* allow text interaction */
 pointer-events:auto;
-
 }
 
-/* title row */
+/* title */
 
 .title-row{
 display:flex;
@@ -104,7 +99,7 @@ font-size:22px;
 opacity:0.7;
 pointer-events:none;
 animation:rise linear forwards;
-z-index:0;
+z-index:1;
 }
 
 @keyframes rise{
@@ -132,8 +127,6 @@ opacity:0;
 100%{transform:translateY(-120vh) rotate(720deg)}
 }
 
-/* mobile */
-
 @media(max-width:600px){
 
 .text{
@@ -145,7 +138,7 @@ font-size:24px;
 }
 
 .glass-box{
-height:60vh;
+height:55vh;
 padding:30px;
 }
 
@@ -169,8 +162,6 @@ padding:30px;
 </div>
 
 </div>
-
-<!-- scroll sections -->
 
 <div class="section"></div>
 <div class="section"></div>
@@ -207,7 +198,7 @@ let lastIndex=-1;
 window.addEventListener("scroll",()=>{
 
 const scroll=window.scrollY;
-const height=window.innerHeight;
+const height=window.innerHeight*0.6;
 
 const index=Math.min(
 messages.length-1,
@@ -219,7 +210,7 @@ if(index!==lastIndex){
 const box=document.getElementById("message");
 
 box.style.opacity=0;
-box.style.transform="translateY(30px)";
+box.style.transform="translateY(20px)";
 
 setTimeout(()=>{
 
@@ -228,7 +219,7 @@ box.innerHTML=messages[index];
 box.style.opacity=1;
 box.style.transform="translateY(0)";
 
-},300);
+},250);
 
 lastIndex=index;
 
@@ -240,7 +231,7 @@ celebrate();
 
 });
 
-/* floating petals */
+/* petals */
 
 function createPetal(){
 
@@ -258,9 +249,9 @@ setTimeout(()=>petal.remove(),14000);
 
 }
 
-setInterval(createPetal,900);
+setInterval(createPetal,700);
 
-/* celebration effect */
+/* celebration */
 
 function celebrate(){
 
