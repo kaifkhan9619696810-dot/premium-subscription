@@ -14,23 +14,18 @@ box-sizing:border-box;
 font-family:'Segoe UI',sans-serif;
 }
 
-html{
-scroll-behavior:smooth;
+html,body{
+height:100%;
+overflow-x:hidden;
 }
 
 body{
-height:500vh;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow-x:hidden;
 
 background:linear-gradient(140deg,#f8d7ff,#ffd7e8,#ffe5c7);
 background-size:300% 300%;
 animation:bgMove 18s ease infinite;
-}
 
-/* Background gradient animation */
+}
 
 @keyframes bgMove{
 0%{background-position:0% 50%}
@@ -38,15 +33,24 @@ animation:bgMove 18s ease infinite;
 100%{background-position:0% 50%}
 }
 
-/* Glass panel */
+/* SCROLL SPACE */
+
+.scroll-space{
+height:500vh;
+}
+
+/* GLASS PANEL */
 
 .glass-box{
 
 position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
 
 width:90%;
-max-width:900px;
-height:70vh;
+max-width:850px;
+height:65vh;
 
 display:flex;
 align-items:center;
@@ -54,7 +58,6 @@ justify-content:center;
 
 background:rgba(255,255,255,0.28);
 backdrop-filter:blur(18px);
--webkit-backdrop-filter:blur(18px);
 
 border-radius:28px;
 border:1px solid rgba(255,255,255,0.45);
@@ -66,7 +69,7 @@ text-align:center;
 
 }
 
-/* Message text */
+/* TEXT */
 
 .text{
 
@@ -85,14 +88,14 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* Flower style */
+/* FLOWER */
 
 .flower{
 font-size:40px;
 margin:10px 0;
 }
 
-/* Floating petals */
+/* PETALS */
 
 .petal{
 position:fixed;
@@ -117,8 +120,6 @@ opacity:0;
 }
 }
 
-/* Mobile adjustment */
-
 @media(max-width:600px){
 
 .text{
@@ -126,7 +127,7 @@ font-size:24px;
 }
 
 .glass-box{
-height:65vh;
+height:60vh;
 padding:30px;
 }
 
@@ -149,9 +150,9 @@ Happy Women's Day
 
 </div>
 
-<script>
+<div class="scroll-space"></div>
 
-/* Messages for scroll storytelling */
+<script>
 
 const messages=[
 
@@ -204,7 +205,7 @@ box.classList.add("show");
 
 });
 
-/* Floating petals animation */
+/* PETALS */
 
 function createPetal(){
 
@@ -224,7 +225,7 @@ petal.remove();
 
 }
 
-setInterval(createPetal,800);
+setInterval(createPetal,900);
 
 </script>
 
