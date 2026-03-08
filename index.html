@@ -19,7 +19,6 @@ background:linear-gradient(120deg,#eef2ff,#f6f8ff,#edf1ff);
 background-size:300% 300%;
 animation:bgMove 20s ease infinite;
 overflow-x:hidden;
-color:#333;
 }
 
 @keyframes bgMove{
@@ -39,8 +38,6 @@ height:100%;
 pointer-events:none;
 z-index:1;
 }
-
-/* PETALS */
 
 .petal{
 position:absolute;
@@ -62,6 +59,23 @@ transform:translateY(50vh) translateX(25px) rotate(180deg);
 100%{
 transform:translateY(110vh) translateX(-25px) rotate(360deg);
 }
+
+}
+
+/* SPARKLES */
+
+.sparkle{
+position:fixed;
+font-size:14px;
+animation:sparkle 2s ease-out forwards;
+pointer-events:none;
+}
+
+@keyframes sparkle{
+
+0%{opacity:0; transform:scale(0.5)}
+50%{opacity:1; transform:scale(1.4)}
+100%{opacity:0; transform:scale(0.6)}
 
 }
 
@@ -88,18 +102,24 @@ max-width:1100px;
 min-height:80vh;
 
 display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
+gap:18px;
 
-background:rgba(255,255,255,0.20);
+background:rgba(255,255,255,0.10);
 
-backdrop-filter:blur(28px);
--webkit-backdrop-filter:blur(28px);
+backdrop-filter:blur(50px) saturate(160%);
+-webkit-backdrop-filter:blur(50px) saturate(160%);
 
 border-radius:34px;
-border:1px solid rgba(255,255,255,0.6);
 
-box-shadow:0 40px 100px rgba(0,0,0,0.15);
+border:1px solid rgba(255,255,255,0.35);
+
+box-shadow:
+0 35px 100px rgba(0,0,0,0.18),
+inset 0 1px 0 rgba(255,255,255,0.6),
+inset 0 -1px 0 rgba(255,255,255,0.25);
 
 padding:120px 80px;
 
@@ -116,34 +136,36 @@ z-index:2;
 
 }
 
-/* EDGE GLOW */
+/* GLASS REFLECTION */
 
-.card::after{
+.card::before{
+
 content:"";
+
 position:absolute;
-inset:0;
-border-radius:inherit;
-padding:1.5px;
+
+top:-50%;
+left:-50%;
+
+width:200%;
+height:200%;
 
 background:linear-gradient(
 120deg,
-rgba(255,255,255,0.8),
-rgba(255,255,255,0.15),
-rgba(255,255,255,0.8)
+rgba(255,255,255,0.15) 0%,
+rgba(255,255,255,0.35) 40%,
+rgba(255,255,255,0.15) 60%
 );
 
--webkit-mask:
-linear-gradient(#000 0 0) content-box,
-linear-gradient(#000 0 0);
+transform:rotate(25deg);
 
--webkit-mask-composite:xor;
-mask-composite:exclude;
-
-opacity:0.6;
 pointer-events:none;
+
+opacity:0.4;
+
 }
 
-/* CARD VISIBILITY */
+/* SHOW CARD */
 
 .card.show{
 opacity:1;
@@ -156,9 +178,9 @@ transform:translateY(0) scale(1);
 display:flex;
 align-items:center;
 justify-content:center;
-gap:25px;
+gap:20px;
 
-font-size:48px;
+font-size:44px;
 font-weight:500;
 
 color:#2b2b2b;
@@ -167,10 +189,6 @@ text-shadow:
 0 0 12px rgba(255,255,255,0.9),
 0 0 24px rgba(255,255,255,0.6),
 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.title span{
-font-size:50px;
 }
 
 /* TEXT */
@@ -187,12 +205,11 @@ text-shadow:
 0 3px 10px rgba(0,0,0,0.15);
 }
 
-/* FINAL TEXT REVEAL */
+/* FINAL TEXT */
 
 .line{
 opacity:0;
-display:inline-block;
-transform:translateY(20px);
+transform:translateY(30px);
 transition:all 0.8s ease;
 }
 
@@ -216,10 +233,7 @@ z-index:3;
 }
 
 @keyframes rippleAnim{
-to{
-transform:scale(3);
-opacity:0;
-}
+to{transform:scale(3); opacity:0;}
 }
 
 /* MOBILE */
@@ -232,7 +246,7 @@ min-height:75vh;
 }
 
 .title{
-font-size:32px;
+font-size:30px;
 }
 
 .text{
@@ -290,17 +304,14 @@ walking beside me. 💫
 </section>
 
 <section>
-<div class="card text final">
+<div class="card text">
 
-<span class="line">💐 On this Women's Day,</span><br><br>
-
-<span class="line">I just want to remind you</span><br>
-<span class="line">how truly special you are.</span><br><br>
-
-<span class="line">Thank you for being you.</span><br><br>
-
-<span class="line">Happy Women's Day,</span><br>
-<span class="line">my amazing sister. 🌸</span>
+<div class="line">💐 On this Women's Day,</div>
+<div class="line">I just want to remind you</div>
+<div class="line">how truly special you are.</div>
+<div class="line">Thank you for being you.</div>
+<div class="line">Happy Women's Day,</div>
+<div class="line">my amazing sister. 🌸</div>
 
 </div>
 </section>
@@ -310,9 +321,9 @@ walking beside me. 💫
 /* SCROLL REVEAL */
 
 const cards=document.querySelectorAll(".card");
-let celebrationTriggered=false;
+let triggered=false;
 
-function revealCards(){
+function reveal(){
 
 const trigger=window.innerHeight*0.55;
 
@@ -324,10 +335,10 @@ if(rect.top<trigger && rect.bottom>trigger){
 
 card.classList.add("show");
 
-if(index===cards.length-1 && !celebrationTriggered){
-celebrate();
-revealFinalText();
-celebrationTriggered=true;
+if(index===cards.length-1 && !triggered){
+revealLines();
+sparkles();
+triggered=true;
 }
 
 }else{
@@ -338,106 +349,92 @@ card.classList.remove("show");
 
 }
 
-window.addEventListener("scroll",revealCards);
-revealCards();
+window.addEventListener("scroll",reveal);
+reveal();
 
 /* PETALS */
 
-function createPetal(){
+function petal(){
 
-const petal=document.createElement("div");
+const p=document.createElement("div");
 
-petal.className="petal";
-petal.innerHTML="🌸";
+p.className="petal";
+p.innerHTML="🌸";
 
-petal.style.left=Math.random()*100+"%";
-petal.style.animationDuration=(Math.random()*6+6)+"s";
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(Math.random()*6+6)+"s";
 
-document.getElementById("petal-layer").appendChild(petal);
+document.getElementById("petal-layer").appendChild(p);
 
-setTimeout(()=>{
-petal.remove();
-},12000);
+setTimeout(()=>{p.remove()},12000);
 
 }
 
-setInterval(createPetal,700);
+setInterval(petal,700);
 
-/* CELEBRATION SWIRL */
+/* LINE REVEAL */
 
-function celebrate(){
+function revealLines(){
 
-for(let i=0;i<40;i++){
-
-const petal=document.createElement("div");
-
-petal.className="petal";
-petal.innerHTML="🌸";
-
-petal.style.left="50%";
-petal.style.top="50%";
-
-petal.style.transform=
-"translate("+(Math.random()*500-250)+"px,"+
-(Math.random()*400-200)+"px)";
-
-petal.style.animationDuration="4s";
-
-document.getElementById("petal-layer").appendChild(petal);
-
-setTimeout(()=>{
-petal.remove();
-},4000);
-
-}
-
-}
-
-/* FINAL TEXT REVEAL */
-
-function revealFinalText(){
-
-const lines=document.querySelectorAll(".final .line");
-
-lines.forEach((line,index)=>{
+document.querySelectorAll(".line").forEach((line,i)=>{
 
 setTimeout(()=>{
 line.classList.add("show");
-}, index*700);
+},i*700);
 
 });
+
+}
+
+/* SPARKLES */
+
+function sparkles(){
+
+for(let i=0;i<25;i++){
+
+setTimeout(()=>{
+
+const s=document.createElement("div");
+
+s.className="sparkle";
+s.innerHTML="✨";
+
+s.style.left=(40+Math.random()*20)+"%";
+s.style.top=(40+Math.random()*20)+"%";
+
+document.body.appendChild(s);
+
+setTimeout(()=>{s.remove()},2000);
+
+},i*80);
+
+}
 
 }
 
 /* RIPPLE */
 
-document.addEventListener("touchmove", function(e){
-createRipple(e.touches[0].clientX,e.touches[0].clientY);
+document.addEventListener("touchmove",e=>{
+
+const r=document.createElement("div");
+r.className="ripple";
+
+r.style.left=(e.touches[0].clientX-25)+"px";
+r.style.top=(e.touches[0].clientY-25)+"px";
+
+document.body.appendChild(r);
+
+setTimeout(()=>{r.remove()},600);
+
 });
-
-function createRipple(x,y){
-
-const ripple=document.createElement("div");
-ripple.className="ripple";
-
-ripple.style.left=(x-25)+"px";
-ripple.style.top=(y-25)+"px";
-
-document.body.appendChild(ripple);
-
-setTimeout(()=>{
-ripple.remove();
-},600);
-
-}
 
 /* PARALLAX */
 
-window.addEventListener("scroll",function(){
+window.addEventListener("scroll",()=>{
 
 const scroll=window.scrollY;
 
-document.body.style.backgroundPosition =
+document.body.style.backgroundPosition=
 "center "+(scroll*0.25)+"px";
 
 });
@@ -446,14 +443,13 @@ document.body.style.backgroundPosition =
 
 if (window.DeviceOrientationEvent) {
 
-window.addEventListener("deviceorientation", function(event){
+window.addEventListener("deviceorientation", e=>{
 
-const tiltX = event.beta / 30;
-const tiltY = event.gamma / 30;
+const tiltX=e.beta/30;
+const tiltY=e.gamma/30;
 
 document.querySelectorAll(".card").forEach(card=>{
-card.style.transform =
-"rotateX("+tiltX+"deg) rotateY("+tiltY+"deg)";
+card.style.transform=`rotateX(${tiltX}deg) rotateY(${tiltY}deg)`
 });
 
 });
