@@ -77,29 +77,30 @@ padding:40px;
 
 .card{
 
-width:96%;
-max-width:1000px;
+width:97%;
+max-width:1100px;
 
-min-height:75vh;
+min-height:80vh;
 
 display:flex;
 align-items:center;
 justify-content:center;
 
-background:rgba(255,255,255,0.6);
-backdrop-filter:blur(24px);
+background:rgba(255,255,255,0.35);
+backdrop-filter:blur(28px);
+-webkit-backdrop-filter:blur(28px);
 
-border-radius:32px;
-border:1px solid rgba(255,255,255,0.8);
+border-radius:34px;
+border:1px solid rgba(255,255,255,0.6);
 
-box-shadow:0 35px 90px rgba(0,0,0,0.15);
+box-shadow:0 40px 100px rgba(0,0,0,0.15);
 
-padding:120px 80px;
+padding:140px 90px;
 
 text-align:center;
 
 opacity:0;
-transform:translateY(80px) scale(0.96);
+transform:translateY(90px) scale(0.96);
 
 transition:
 opacity 0.9s ease,
@@ -109,7 +110,7 @@ z-index:2;
 
 }
 
-/* CARD VISIBLE */
+/* CARD SHOW */
 
 .card.show{
 opacity:1;
@@ -122,19 +123,19 @@ transform:translateY(0) scale(1);
 display:flex;
 align-items:center;
 justify-content:center;
-gap:20px;
-font-size:46px;
+gap:25px;
+font-size:52px;
 font-weight:500;
 }
 
 .title span{
-font-size:48px;
+font-size:54px;
 }
 
 /* TEXT */
 
 .text{
-font-size:30px;
+font-size:32px;
 line-height:1.7;
 }
 
@@ -145,26 +146,26 @@ animation:glow 2.5s infinite alternate;
 }
 
 @keyframes glow{
-from{box-shadow:0 30px 80px rgba(0,0,0,0.15);}
-to{box-shadow:0 35px 100px rgba(120,150,255,0.4);}
+from{box-shadow:0 40px 100px rgba(0,0,0,0.15);}
+to{box-shadow:0 45px 120px rgba(120,150,255,0.4);}
 }
 
-/* RIPPLE EFFECT */
+/* RIPPLE */
 
 .ripple{
 
 position:fixed;
 
-width:80px;
-height:80px;
+width:50px;
+height:50px;
 
 border-radius:50%;
 
-border:2px solid rgba(255,255,255,0.7);
+border:2px solid rgba(255,255,255,0.8);
 
 transform:scale(0);
 
-animation:rippleAnim 0.9s ease-out;
+animation:rippleAnim 0.6s ease-out;
 
 pointer-events:none;
 
@@ -175,7 +176,7 @@ z-index:3;
 @keyframes rippleAnim{
 
 to{
-transform:scale(5);
+transform:scale(3);
 opacity:0;
 }
 
@@ -187,19 +188,19 @@ opacity:0;
 
 .card{
 padding:80px 35px;
-min-height:70vh;
+min-height:75vh;
 }
 
 .title{
-font-size:34px;
-}
-
-.title span{
 font-size:36px;
 }
 
+.title span{
+font-size:38px;
+}
+
 .text{
-font-size:24px;
+font-size:26px;
 }
 
 }
@@ -260,13 +261,9 @@ cards.forEach(card=>{
 const rect=card.getBoundingClientRect();
 
 if(rect.top<trigger && rect.bottom>trigger){
-
 card.classList.add("show");
-
 }else{
-
 card.classList.remove("show");
-
 }
 
 });
@@ -298,33 +295,25 @@ petal.remove();
 
 setInterval(createPetal,700);
 
-/* RIPPLE ON TOUCH */
+/* RIPPLE UNDER FINGER */
 
-document.addEventListener("click",function(e){
+let lastTouch = {x: window.innerWidth/2, y: window.innerHeight/2};
 
-createRipple(e.clientX,e.clientY);
+document.addEventListener("touchmove", function(e){
 
-});
+lastTouch.x = e.touches[0].clientX;
+lastTouch.y = e.touches[0].clientY;
 
-/* RIPPLE ON SCROLL */
-
-let lastScroll=0;
-
-window.addEventListener("scroll",function(){
-
-const now=Date.now();
-
-if(now-lastScroll>200){
-
-createRipple(window.innerWidth/2,window.innerHeight/2);
-
-lastScroll=now;
-
-}
+createRipple(lastTouch.x,lastTouch.y);
 
 });
 
-/* RIPPLE FUNCTION */
+document.addEventListener("mousemove", function(e){
+
+lastTouch.x = e.clientX;
+lastTouch.y = e.clientY;
+
+});
 
 function createRipple(x,y){
 
@@ -332,14 +321,14 @@ const ripple=document.createElement("div");
 
 ripple.className="ripple";
 
-ripple.style.left=(x-40)+"px";
-ripple.style.top=(y-40)+"px";
+ripple.style.left=(x-25)+"px";
+ripple.style.top=(y-25)+"px";
 
 document.body.appendChild(ripple);
 
 setTimeout(()=>{
 ripple.remove();
-},900);
+},600);
 
 }
 
@@ -349,12 +338,5 @@ window.addEventListener("scroll",function(){
 
 const scroll=window.scrollY;
 
-document.body.style.backgroundPosition=
-"center "+(scroll*0.25)+"px";
-
-});
-
-</script>
-
-</body>
-</html>
+document.body.style.backgroundPosition =
+"center "+(scroll*0
