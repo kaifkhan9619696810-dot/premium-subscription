@@ -27,7 +27,7 @@ overflow-x:hidden;
 100%{background-position:0% 50%}
 }
 
-/* PETALS */
+/* PETAL LAYER */
 
 #petal-layer{
 position:fixed;
@@ -39,6 +39,8 @@ pointer-events:none;
 z-index:1;
 }
 
+/* PETALS */
+
 .petal{
 position:absolute;
 font-size:24px;
@@ -47,10 +49,20 @@ animation:rise linear forwards;
 }
 
 @keyframes rise{
-0%{transform:translateY(100vh) rotate(0deg);opacity:0;}
-10%{opacity:0.8;}
-100%{transform:translateY(-10vh) rotate(360deg);opacity:0;}
+0%{
+transform:translateY(100vh) rotate(0deg);
+opacity:0;
 }
+10%{
+opacity:0.8;
+}
+100%{
+transform:translateY(-10vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* SWIRL CELEBRATION */
 
 @keyframes swirl{
 0%{transform:translateY(0) rotate(0deg)}
@@ -85,10 +97,9 @@ box-shadow:0 20px 40px rgba(0,0,0,0.12);
 
 padding:40px;
 text-align:center;
-
 }
 
-/* Glow animation */
+/* GLASS GLOW */
 
 @keyframes glassGlow{
 0%{background:rgba(255,255,255,0.28);}
@@ -109,6 +120,8 @@ line-height:1.6;
 transition:all 0.6s ease;
 }
 
+/* TITLE */
+
 .title-row{
 display:flex;
 align-items:center;
@@ -122,7 +135,7 @@ font-weight:500;
 font-size:36px;
 }
 
-/* SECTIONS */
+/* SCROLL SECTIONS */
 
 .section{
 height:100vh;
@@ -130,8 +143,13 @@ height:100vh;
 
 @media(max-width:600px){
 
-.text{font-size:22px;}
-.title-row{font-size:24px;}
+.text{
+font-size:22px;
+}
+
+.title-row{
+font-size:24px;
+}
 
 .glass-box{
 height:55vh;
@@ -148,6 +166,7 @@ padding:30px;
 <div id="petal-layer"></div>
 
 <div class="glass-box">
+
 <div id="message" class="text">
 
 <div class="title-row">
@@ -157,7 +176,10 @@ padding:30px;
 </div>
 
 </div>
+
 </div>
+
+<!-- SCROLL SPACE -->
 
 <div class="section"></div>
 <div class="section"></div>
@@ -166,6 +188,8 @@ padding:30px;
 <div class="section"></div>
 
 <script>
+
+/* MESSAGES */
 
 const messages=[
 
@@ -188,9 +212,21 @@ const messages=[
 let currentIndex=-1;
 let celebrationDone=false;
 
+/* SCROLL DETECTION */
+
 window.addEventListener("scroll",()=>{
 
-const index=Math.round(window.scrollY / window.innerHeight);
+let index=Math.round(window.scrollY / window.innerHeight);
+
+/* prevent undefined */
+
+if(index>=messages.length){
+index=messages.length-1;
+}
+
+if(index<0){
+index=0;
+}
 
 if(index!==currentIndex){
 
@@ -202,6 +238,7 @@ box.style.transform="translateY(20px)";
 setTimeout(()=>{
 
 box.innerHTML=messages[index];
+
 box.style.opacity=1;
 box.style.transform="translateY(0)";
 
@@ -209,9 +246,13 @@ box.style.transform="translateY(0)";
 
 currentIndex=index;
 
+/* trigger celebration */
+
 if(index===messages.length-1 && !celebrationDone){
+
 celebrationDone=true;
 celebrate();
+
 }
 
 }
@@ -246,7 +287,9 @@ const glass=document.querySelector(".glass-box");
 
 glass.classList.add("glow");
 
-setTimeout(()=>glass.classList.remove("glow"),2500);
+setTimeout(()=>{
+glass.classList.remove("glow");
+},2500);
 
 for(let i=0;i<40;i++){
 
