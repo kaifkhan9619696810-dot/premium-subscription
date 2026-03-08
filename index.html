@@ -43,9 +43,8 @@ z-index:1;
 .petal{
 position:absolute;
 font-size:22px;
-opacity:0.85;
+opacity:0.9;
 animation:fall linear forwards;
-filter:blur(0.5px);
 }
 
 @keyframes fall{
@@ -90,7 +89,8 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-background:rgba(255,255,255,0.35);
+background:rgba(255,255,255,0.20);
+
 backdrop-filter:blur(28px);
 -webkit-backdrop-filter:blur(28px);
 
@@ -99,7 +99,7 @@ border:1px solid rgba(255,255,255,0.6);
 
 box-shadow:0 40px 100px rgba(0,0,0,0.15);
 
-padding:140px 90px;
+padding:120px 80px;
 
 text-align:center;
 
@@ -111,8 +111,6 @@ opacity 0.9s ease,
 transform 0.9s ease;
 
 z-index:2;
-
-isolation:isolate;
 
 }
 
@@ -150,37 +148,6 @@ pointer-events:none;
 
 }
 
-/* GLASS REFLECTION */
-
-.card::before{
-
-content:"";
-
-position:absolute;
-
-top:-50%;
-left:-50%;
-
-width:200%;
-height:200%;
-
-background:linear-gradient(
-120deg,
-rgba(255,255,255,0.15) 0%,
-rgba(255,255,255,0.35) 40%,
-rgba(255,255,255,0.15) 60%
-);
-
-transform:rotate(25deg);
-
-pointer-events:none;
-
-opacity:0.35;
-
-transition:transform 0.4s ease;
-
-}
-
 /* SHOW CARD */
 
 .card.show{
@@ -195,19 +162,19 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap:25px;
-font-size:52px;
+font-size:50px;
 font-weight:500;
 }
 
 .title span{
-font-size:54px;
+font-size:52px;
 }
 
 /* TEXT */
 
 .text{
-font-size:32px;
-line-height:1.7;
+font-size:30px;
+line-height:1.8;
 }
 
 /* FINAL GLOW */
@@ -258,20 +225,16 @@ opacity:0;
 @media(max-width:600px){
 
 .card{
-padding:80px 35px;
+padding:70px 35px;
 min-height:75vh;
 }
 
 .title{
-font-size:36px;
-}
-
-.title span{
-font-size:38px;
+font-size:34px;
 }
 
 .text{
-font-size:26px;
+font-size:24px;
 }
 
 }
@@ -295,27 +258,43 @@ Happy Women's Day
 
 <section>
 <div class="card text">
-To my wonderful sister — someone who has always been a quiet strength in my life and a constant source of warmth.
+🌷 To my wonderful sister,<br><br>
+You have always been<br>
+a quiet strength in my life —<br>
+a constant source of warmth,<br>
+care, and comfort. 💖
 </div>
 </section>
 
 <section>
 <div class="card text">
-Your kindness, your courage, and the way you care for others make the world around you brighter than you realize.
+✨ Your kindness,<br>
+your courage,<br>
+and the way you care for others<br><br>
+make the world around you<br>
+brighter than you realize. 🌼
 </div>
 </section>
 
 <section>
 <div class="card text">
-Through every moment, every challenge, and every joy, I feel lucky to have a sister like you beside me.
+🌸 Through every moment,<br>
+every challenge,<br>
+and every joy in life,<br><br>
+I feel incredibly lucky<br>
+to have a sister like you<br>
+walking beside me. 💫
 </div>
 </section>
 
 <section>
 <div class="card text final">
-On this Women's Day, I just want to remind you how special you are.<br><br>
+💐 On this Women's Day,<br><br>
+I just want to remind you<br>
+how truly special you are.<br><br>
 Thank you for being you.<br><br>
-Happy Women's Day, my amazing sister. 💐
+Happy Women's Day,<br>
+my amazing sister. 🌸
 </div>
 </section>
 
@@ -368,7 +347,7 @@ petal.remove();
 
 setInterval(createPetal,700);
 
-/* RIPPLE UNDER FINGER */
+/* RIPPLE */
 
 document.addEventListener("touchmove", function(e){
 
