@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Happy Women's Day</title>
 
 <style>
@@ -16,76 +15,88 @@ font-family: 'Segoe UI', sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#ff9a9e,#fbc2eb,#a18cd1);
-color:white;
 overflow-x:hidden;
+background:linear-gradient(140deg,#f8d7ff,#ffd7e8,#ffe5c7);
 }
 
+/* SECTION LAYOUT */
+
 section{
-min-height:100vh;
+height:120vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:40px;
+}
+
+/* GLASS BOX */
+
+.glass-box{
+
+width:90%;
+max-width:900px;
+min-height:70vh;
+
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
 padding:40px;
+
+font-size:24px;
+line-height:1.7;
+color:#333;
+
+background:rgba(255,255,255,0.35);
+backdrop-filter:blur(14px);
+-webkit-backdrop-filter:blur(14px);
+
+border-radius:25px;
+border:1px solid rgba(255,255,255,0.5);
+
+box-shadow:0 15px 35px rgba(0,0,0,0.1);
+
 opacity:0;
-transform:translateY(60px);
-transition:all 1s ease;
+transform:translateY(120px);
+transition:all 1.3s ease;
+
 }
 
-section.show{
+/* VISIBLE STATE */
+
+.glass-box.show{
+
 opacity:1;
 transform:translateY(0);
+
 }
 
-h1{
-font-size:clamp(40px,8vw,80px);
+/* TITLE STYLE */
+
+.title{
+
+font-size:36px;
 font-weight:600;
+
 }
 
-h2{
-font-size:clamp(30px,6vw,50px);
-max-width:800px;
-line-height:1.4;
-}
+/* MOBILE */
 
-.highlight{
-color:#fff;
-background:rgba(255,255,255,0.25);
-padding:4px 12px;
-border-radius:8px;
-}
+@media(max-width:600px){
 
-p{
-font-size:22px;
-max-width:700px;
-line-height:1.7;
-}
+.glass-box{
 
-.scroll{
-position:absolute;
-bottom:40px;
-font-size:18px;
-opacity:0.8;
-animation:float 2s infinite;
-}
-
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(10px)}
-100%{transform:translateY(0)}
-}
-
-.heart{
-position:fixed;
 font-size:20px;
-animation:rise 7s linear infinite;
-opacity:0.7;
+padding:30px;
+
 }
 
-@keyframes rise{
-0%{transform:translateY(100vh)}
-100%{transform:translateY(-10vh)}
+.title{
+
+font-size:28px;
+
+}
+
 }
 
 </style>
@@ -93,98 +104,67 @@ opacity:0.7;
 
 <body>
 
-<section class="reveal">
-<div>
-<h1>🌸 Happy Women's Day 🌸</h1>
-<p class="scroll">Scroll to begin ↓</p>
+<section>
+<div class="glass-box reveal">
+<div class="title">🌸 Happy Women's Day 🌸</div>
 </div>
 </section>
 
-<section class="reveal">
-<h2>
-Today we celebrate the <span class="highlight">strength</span>  
-that moves the world forward.
-</h2>
+<section>
+<div class="glass-box reveal">
+Today we celebrate the strength and resilience that women bring into the world every single day.
+</div>
 </section>
 
-<section class="reveal">
-<h2>
-The <span class="highlight">courage</span>  
-to stand tall in every moment.
-</h2>
+<section>
+<div class="glass-box reveal">
+Through courage and determination, women continue to shape the future in countless meaningful ways.
+</div>
 </section>
 
-<section class="reveal">
-<h2>
-The <span class="highlight">kindness</span>  
-that makes life more beautiful.
-</h2>
+<section>
+<div class="glass-box reveal">
+Their compassion, wisdom and kindness make the world a warmer and more beautiful place.
+</div>
 </section>
 
-<section class="reveal">
-<h2>
-And the <span class="highlight">brilliance</span>  
-that inspires everyone around.
-</h2>
-</section>
-
-<section class="reveal">
-<h2>
-Today is a celebration of  
-<span class="highlight">every incredible woman</span>.
-</h2>
-</section>
-
-<section class="reveal">
-<h2>
-💐 You are strong.  
-You are inspiring.  
-You are extraordinary.
-</h2>
+<section>
+<div class="glass-box reveal">
+Today is a celebration of every incredible woman who inspires the world simply by being herself. 💐
+</div>
 </section>
 
 <script>
 
-const sections=document.querySelectorAll(".reveal");
+/* SCROLL REVEAL */
 
-function revealOnScroll(){
+const elements=document.querySelectorAll(".reveal");
 
-const trigger=window.innerHeight*0.85;
+function reveal(){
 
-sections.forEach(sec=>{
+const trigger=window.innerHeight*0.8;
 
-const top=sec.getBoundingClientRect().top;
+elements.forEach(el=>{
+
+const top=el.getBoundingClientRect().top;
 
 if(top<trigger){
-sec.classList.add("show");
+
+el.classList.add("show");
+
+}else{
+
+el.classList.remove("show");
+
 }
 
 });
 
 }
 
-window.addEventListener("scroll",revealOnScroll);
-revealOnScroll();
+window.addEventListener("scroll",reveal);
 
-
-function createHeart(){
-
-const heart=document.createElement("div");
-heart.classList.add("heart");
-heart.innerHTML="💖";
-
-heart.style.left=Math.random()*100+"vw";
-heart.style.animationDuration=(Math.random()*3+4)+"s";
-
-document.body.appendChild(heart);
-
-setTimeout(()=>{
-heart.remove();
-},7000);
-
-}
-
-setInterval(createHeart,600);
+reveal();
 
 </script>
 
