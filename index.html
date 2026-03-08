@@ -20,11 +20,9 @@ overflow-x:hidden;
 }
 
 body{
-
 background:linear-gradient(140deg,#f8d7ff,#ffd7e8,#ffe5c7);
 background-size:300% 300%;
 animation:bgMove 18s ease infinite;
-
 }
 
 @keyframes bgMove{
@@ -33,13 +31,13 @@ animation:bgMove 18s ease infinite;
 100%{background-position:0% 50%}
 }
 
-/* SCROLL SPACE */
+/* Scroll height */
 
 .scroll-space{
-height:500vh;
+height:600vh;
 }
 
-/* GLASS PANEL */
+/* Glass panel */
 
 .glass-box{
 
@@ -47,6 +45,7 @@ position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
+z-index:2;
 
 width:90%;
 max-width:850px;
@@ -58,6 +57,7 @@ justify-content:center;
 
 background:rgba(255,255,255,0.28);
 backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
 
 border-radius:28px;
 border:1px solid rgba(255,255,255,0.45);
@@ -67,62 +67,79 @@ box-shadow:0 20px 40px rgba(0,0,0,0.12);
 padding:40px;
 text-align:center;
 
+overflow:hidden;
+
 }
 
-/* TEXT */
+/* Text container */
 
 .text{
-
-font-size:30px;
+font-size:28px;
 color:#333;
 line-height:1.6;
-
-opacity:0;
-transform:translateY(20px);
-transition:all 0.8s ease;
-
+transition:transform 0.3s ease;
 }
 
-.text.show{
-opacity:1;
-transform:translateY(0);
+/* Title row */
+
+.title-row{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:18px;
+font-size:32px;
+font-weight:500;
 }
 
-/* FLOWER */
-
-.flower{
-font-size:40px;
-margin:10px 0;
+.title-row .flower{
+font-size:36px;
 }
 
-/* PETALS */
+/* Floating petals */
 
 .petal{
 position:fixed;
-font-size:20px;
-opacity:0.6;
+font-size:22px;
+opacity:0.7;
 pointer-events:none;
 animation:rise linear forwards;
-z-index:-1;
+z-index:0;
 }
 
 @keyframes rise{
+
 0%{
 transform:translateY(100vh) rotate(0deg);
 opacity:0;
 }
+
 10%{
 opacity:0.7;
 }
+
 100%{
 transform:translateY(-10vh) rotate(360deg);
 opacity:0;
 }
+
 }
+
+/* Celebration swirl */
+
+@keyframes swirl{
+0%{transform:translateY(0) rotate(0deg)}
+100%{transform:translateY(-120vh) rotate(720deg)}
+}
+
+/* Mobile */
 
 @media(max-width:600px){
 
 .text{
+font-size:22px;
+}
+
+.title-row{
 font-size:24px;
 }
 
@@ -140,11 +157,13 @@ padding:30px;
 
 <div class="glass-box">
 
-<div id="message" class="text show">
+<div id="message" class="text">
 
-<div class="flower">🌸</div>
-Happy Women's Day
-<div class="flower">🌸</div>
+<div class="title-row">
+<span class="flower">🌸</span>
+<span>Happy Women's Day</span>
+<span class="flower">🌸</span>
+</div>
 
 </div>
 
@@ -154,11 +173,15 @@ Happy Women's Day
 
 <script>
 
+/* Messages */
+
 const messages=[
 
-`<div class="flower">🌸</div>
-Happy Women's Day
-<div class="flower">🌸</div>`,
+`<div class="title-row">
+<span class="flower">🌸</span>
+<span>Happy Women's Day</span>
+<span class="flower">🌸</span>
+</div>`,
 
 `Today we celebrate the strength
 that shapes the world.`,
@@ -174,38 +197,50 @@ today is for you. 💐`
 
 ];
 
-let current=0;
+let lastIndex=0;
+
+/* Scroll cinematic movement */
 
 window.addEventListener("scroll",()=>{
 
-const scroll=window.scrollY;
-const height=document.body.scrollHeight-window.innerHeight;
+const scrollTop = window.scrollY;
+const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-const progress=scroll/height;
+const progress = scrollTop / docHeight;
 
-const index=Math.floor(progress*messages.length);
-
-if(index!==current && index<messages.length){
-
-current=index;
+const index = Math.min(
+messages.length - 1,
+Math.floor(progress * messages.length)
+);
 
 const box=document.getElementById("message");
 
-box.classList.remove("show");
+/* move text upward smoothly */
 
-setTimeout(()=>{
+const offset=(progress*messages.length-index)*120;
+box.style.transform=`translateY(-${offset}px)`;
+
+/* change message */
+
+if(index!==lastIndex){
 
 box.innerHTML=messages[index];
+box.style.transform="translateY(60px)";
+setTimeout(()=>{box.style.transform="translateY(0)"},100);
 
-box.classList.add("show");
+lastIndex=index;
 
-},300);
+/* celebration on final message */
+
+if(index===messages.length-1){
+celebrate();
+}
 
 }
 
 });
 
-/* PETALS */
+/* Floating petals */
 
 function createPetal(){
 
@@ -226,6 +261,29 @@ petal.remove();
 }
 
 setInterval(createPetal,900);
+
+/* Celebration swirl */
+
+function celebrate(){
+
+for(let i=0;i<25;i++){
+
+const petal=document.createElement("div");
+
+petal.className="petal";
+petal.innerHTML="🌸";
+
+petal.style.left=Math.random()*100+"vw";
+petal.style.fontSize="26px";
+petal.style.animation="swirl 4s ease-out forwards";
+
+document.body.appendChild(petal);
+
+setTimeout(()=>petal.remove(),4000);
+
+}
+
+}
 
 </script>
 
