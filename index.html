@@ -45,6 +45,7 @@ position:absolute;
 font-size:22px;
 opacity:0.85;
 animation:fall linear forwards;
+filter:blur(0.5px);
 }
 
 @keyframes fall{
@@ -77,6 +78,9 @@ padding:40px;
 
 .card{
 
+position:relative;
+overflow:hidden;
+
 width:97%;
 max-width:1100px;
 
@@ -107,6 +111,39 @@ opacity 0.9s ease,
 transform 0.9s ease;
 
 z-index:2;
+
+isolation:isolate;
+
+}
+
+/* GLASS REFLECTION */
+
+.card::before{
+
+content:"";
+
+position:absolute;
+
+top:-50%;
+left:-50%;
+
+width:200%;
+height:200%;
+
+background:linear-gradient(
+120deg,
+rgba(255,255,255,0.15) 0%,
+rgba(255,255,255,0.35) 40%,
+rgba(255,255,255,0.15) 60%
+);
+
+transform:rotate(25deg);
+
+pointer-events:none;
+
+opacity:0.35;
+
+transition:transform 0.4s ease;
 
 }
 
@@ -320,7 +357,7 @@ ripple.remove();
 
 }
 
-/* PARALLAX */
+/* PARALLAX BACKGROUND */
 
 window.addEventListener("scroll",function(){
 
@@ -331,7 +368,7 @@ document.body.style.backgroundPosition =
 
 });
 
-/* 3D TILT EFFECT */
+/* 3D TILT + REFLECTION */
 
 if (window.DeviceOrientationEvent) {
 
